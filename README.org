@@ -1,1 +1,6 @@
-# barebones-os
+* barebones-os
+** Requirements
+- Linux
+- An i686-elf cross compiler
+- Grub
+- Qemu
