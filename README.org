@@ -1,6 +1,6 @@
-* barebones-os
+* FrackOS
 ** Requirements
 - Linux
 - An i686-elf cross compiler
 - Grub
-- Qemu
+- Qemu (Only for testing)
