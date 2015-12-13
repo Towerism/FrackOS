@@ -5,7 +5,7 @@ all: frackos.iso
 run: frackos.iso
 	./qemu.sh
 
-frackos.iso: build
+iso: build
 	./iso.sh
 
 build:
