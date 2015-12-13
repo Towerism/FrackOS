@@ -12,7 +12,9 @@ void kernel_early(void)
 
 void kernel_main(void)
 {
-  printf("%s\n%s\n",
+  printf("%s\n%s\n%s\n",
          "Welcome to FrackOS!",
-         "Still in development...");
+         "Still in development...",
+         "This string is testing backspace functionality..................................");
+  printf("%c", '\b');
 }

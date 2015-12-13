@@ -49,13 +49,54 @@ void terminal_linefeed()
   terminal_column = 0;
 }
 
+int terminal_scan_to_end_of_row(size_t row)
+{
+  size_t column = VGA_WIDTH - 1;
+  while(char_from_vgaentry(column, row) == ' ' && column >= 0)
+  {
+    column--;
+  }
+  column++;
+  if (column == VGA_WIDTH)
+    column--;
+  return column;
+}
+
+void terminal_backspace()
+{
+  if (terminal_column != 0)
+    terminal_column--;
+  else if (terminal_row != 0)
+  {
+    terminal_row--;
+    terminal_column = terminal_scan_to_end_of_row(terminal_row);
+    if (terminal_column != VGA_WIDTH - 1)
+    {
+      terminal_column--;
+    }
+  }
+  terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);
+}
+
+bool terminal_handle_special(char c)
+{
+  switch (c)
+  {
+  case '\n':
+    terminal_linefeed();
+    return true;
+  case '\b':
+    terminal_backspace();
+    return true;
+  default:
+    return false;
+  }
+}
+
 void terminal_putchar(char c)
 {
-  if ( c == '\n' )
-  {
-    terminal_linefeed();
+  if ( terminal_handle_special(c) )
     return;
-  }
 	terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
 	if ( ++terminal_column == VGA_WIDTH )
 	{
