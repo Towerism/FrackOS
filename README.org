@@ -4,3 +4,7 @@
 - An i686-elf cross compiler
 - Grub
 - Qemu (Only for testing)
+** Instructions
+You can build the operating system with ~make build~, 
+create a bootable image with ~make iso~, 
+and run inside an emulator using ~make run~.
