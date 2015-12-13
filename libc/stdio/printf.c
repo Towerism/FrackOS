@@ -54,6 +54,7 @@ int printf(const char *restrict format, ...) {
   }
 
   va_end(parameters);
+  terminal_update_cursor();
 
   return written;
 }

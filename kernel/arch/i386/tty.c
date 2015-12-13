@@ -20,12 +20,14 @@ void terminal_clear() {
   }
 }
 
-void update_cursor() {
+void terminal_update_cursor() {
   size_t index = make_vgaindex(terminal_column, terminal_row);
-  outb(VGA_CTRL, 14);
-  outb(VGA_DATA, (uint8_t)(index >> 8));
-  outb(VGA_CTRL, 15);
-  outb(VGA_DATA, (uint8_t)index);
+  uint8_t index_high = (index >> 8) & 0xFF;
+  uint8_t index_low = index & 0xFF;
+  outb(VGA_CTRL, 0x0E);
+  outb(VGA_DATA, index_high);
+  outb(VGA_CTRL, 0x0F);
+  outb(VGA_DATA, index_low);
 }
 
 void terminal_initialize(void) {
@@ -35,7 +37,7 @@ void terminal_initialize(void) {
   terminal_buffer = VGA_MEMORY;
 
   terminal_clear();
-  update_cursor();
+  terminal_update_cursor();
 }
 
 void terminal_setcolor(uint8_t color) { terminal_color = color; }
@@ -99,12 +101,12 @@ void terminal_putchar(char c) {
       }
     }
   }
-  update_cursor();
 }
 
 void terminal_write(const char *data, size_t size) {
   for (size_t i = 0; i < size; i++)
     terminal_putchar(data[i]);
+  terminal_update_cursor();
 }
 
 void terminal_writestring(const char *data) {
