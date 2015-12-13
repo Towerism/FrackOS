@@ -4,18 +4,18 @@ CFLAGS = -c -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 LFLAGS = -T linker.ld -ffreestanding -O2 -nostdlib 
 LIBS = -lgcc
 
-all: myos.iso
+all: frackos.iso
 
-run: myos.iso
-	qemu-system-i386 -cdrom myos.iso
+run: frackos.iso
+	qemu-system-i386 -cdrom frackos.iso
 
-myos.iso: myos.bin
+frackos.iso: frackos.bin grub.cfg
 	mkdir -p isodir/boot/grub
-	cp myos.bin isodir/boot/myos.bin
+	cp frackos.bin isodir/boot/frackos.bin
 	cp grub.cfg isodir/boot/grub/grub.cfg
-	grub-mkrescue -d /usr/lib/grub/i386-pc/ -o myos.iso isodir
+	grub-mkrescue -d /usr/lib/grub/i386-pc/ -o frackos.iso isodir
 
-myos.bin: boot.o kernel.o
+frackos.bin: boot.o kernel.o
 	$(CC) $(LFLAGS) -o $@ $^ $(LIBS)
 
 boot.o: boot.s
