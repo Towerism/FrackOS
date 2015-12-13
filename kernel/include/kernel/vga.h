@@ -37,10 +37,13 @@ static const size_t VGA_HEIGHT = 25;
 
 static uint16_t *const VGA_MEMORY = (uint16_t *)0xB8000;
 
+static inline size_t make_vgaindex(size_t x, size_t y) {
+  return y * VGA_WIDTH + x;
+}
+
 static inline char char_from_vgaentry(size_t x, size_t y) {
-  size_t index = y * VGA_WIDTH + x;
-  uint16_t entry = VGA_MEMORY[index];
-  return entry & 0xFF;
+  size_t index = make_vgaindex(x, y);
+  return VGA_MEMORY[index] & 0xFF;
 }
 
 #endif
