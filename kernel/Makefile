@@ -26,9 +26,10 @@ CPPFLAGS:=$(CPPFLAGS) $(KERNEL_ARCH_CPPFLAGS)
 LDFLAGS:=$(LDFLAGS) $(KERNEL_ARCH_LDFLAGS)
 LIBS:=$(LIBS) $(KERNEL_ARCH_LIBS)
 
+C_SRCS:=$(shell find -path "./kernel/*.c" | sed "s/\.\///g")
 OBJS:=\
 $(KERNEL_ARCH_OBJS) \
-kernel/kernel.o \
+$(C_SRCS:.c=.o)\
 
 CRTI_OBJ:=$(ARCHDIR)/crti.o
 CRTBEGIN_OBJ:=$(shell $(CC) $(CFLAGS) $(LDFLAGS) -print-file-name=crtbegin.o)
