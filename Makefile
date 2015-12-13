@@ -1,3 +1,9 @@
+AS = i686-elf-as
+CC = i686-elf-gcc
+CFLAGS = -c -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+LFLAGS = -T linker.ld -ffreestanding -O2 -nostdlib 
+LIBS = -lgcc
+
 all: myos.iso
 
 run: myos.iso
@@ -10,13 +16,13 @@ myos.iso: myos.bin
 	grub-mkrescue -d /usr/lib/grub/i386-pc/ -o myos.iso isodir
 
 myos.bin: boot.o kernel.o
-	i686-elf-gcc -T linker.ld -o $@ -ffreestanding -O2 -nostdlib $^ -lgcc
+	$(CC) $(LFLAGS) -o $@ $^ $(LIBS)
 
 boot.o: boot.s
-	i686-elf-as $< -o $@
+	$(AS) $< -o $@
 
 kernel.o: kernel.c
-	i686-elf-gcc -c $< -o $@ -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+	$(CC) $(CFLAGS) $< -o $@
 
 clean:
 	rm -rf *.iso *.o *.bin isodir
