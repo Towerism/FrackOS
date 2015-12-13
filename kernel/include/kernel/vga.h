@@ -46,4 +46,8 @@ static inline char char_from_vgaentry(size_t x, size_t y) {
   return VGA_MEMORY[index] & 0xFF;
 }
 
+// I/O ports
+static const uint16_t VGA_CTRL = 0x3D4;
+static const uint16_t VGA_DATA = 0x3D5;
+
 #endif

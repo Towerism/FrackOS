@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include <kernel/vga.h>
+#include <kernel/io.h>
 
 size_t terminal_row;
 size_t terminal_column;
@@ -19,6 +20,14 @@ void terminal_clear() {
   }
 }
 
+void update_cursor() {
+  size_t index = make_vgaindex(terminal_column, terminal_row);
+  outb(VGA_CTRL, 14);
+  outb(VGA_DATA, (uint8_t)(index >> 8));
+  outb(VGA_CTRL, 15);
+  outb(VGA_DATA, (uint8_t)index);
+}
+
 void terminal_initialize(void) {
   terminal_row = 0;
   terminal_column = 0;
@@ -26,6 +35,7 @@ void terminal_initialize(void) {
   terminal_buffer = VGA_MEMORY;
 
   terminal_clear();
+  update_cursor();
 }
 
 void terminal_setcolor(uint8_t color) { terminal_color = color; }
@@ -52,9 +62,11 @@ int terminal_scan_to_end_of_row(size_t row) {
 }
 
 void terminal_backspace() {
+  bool moved_up = false;
   if (terminal_column != 0)
     terminal_column--;
   else if (terminal_row != 0) {
+    moved_up = true;
     terminal_row--;
     terminal_column = terminal_scan_to_end_of_row(terminal_row);
     if (terminal_column != VGA_WIDTH - 1) {
@@ -78,15 +90,16 @@ bool terminal_handle_special(char c) {
 }
 
 void terminal_putchar(char c) {
-  if (terminal_handle_special(c))
-    return;
-  terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
-  if (++terminal_column == VGA_WIDTH) {
-    terminal_column = 0;
-    if (++terminal_row == VGA_HEIGHT) {
-      terminal_row = 0;
+  if (!terminal_handle_special(c)) {
+    terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
+    if (++terminal_column == VGA_WIDTH) {
+      terminal_column = 0;
+      if (++terminal_row == VGA_HEIGHT) {
+        terminal_row = 0;
+      }
     }
   }
+  update_cursor();
 }
 
 void terminal_write(const char *data, size_t size) {
