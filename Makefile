@@ -1,8 +1,8 @@
 .PHONY: build
 
-all: frackos.iso
+all: iso
 
-run: frackos.iso
+run: iso
 	./qemu.sh
 
 iso: build
