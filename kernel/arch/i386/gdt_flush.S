@@ -6,11 +6,11 @@ gdt_flush:
   ljmp $0x08, $gdt_reload_registers # 0x08 is the selector for the code segment
 gdt_reload_registers: 
   mov 0x10, %ax                 # 0x10 is the selector for the data segment
-	mov %ax, %ds                  # initialize selectors
-	mov %ax, %es
-	mov %ax, %fs
-	mov %ax, %gs
-	mov %ax, %ss
+  mov %ax, %ds                  # initialize selectors
+  mov %ax, %es
+  mov %ax, %fs
+  mov %ax, %gs
+  mov %ax, %ss
 
   sti                           # re-enable interrupts
   ret
