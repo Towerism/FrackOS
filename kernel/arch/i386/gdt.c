@@ -39,6 +39,6 @@ void init_gdt() {
   gdt_flush((uint32_t)&gdt_ptr);
 
   // load the task state segment
-  __asm__("mov 0x28, %ax"); // 0x28 is the address of the task state descriptor in the GDT
+  __asm__("mov 0x28, %ax"); // 0x28 is the selector for the task state segment
   __asm__("ltr %ax"); // actuall load the tss
 }
