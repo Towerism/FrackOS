@@ -26,7 +26,7 @@ CPPFLAGS:=$(CPPFLAGS) $(KERNEL_ARCH_CPPFLAGS)
 LDFLAGS:=$(LDFLAGS) $(KERNEL_ARCH_LDFLAGS)
 LIBS:=$(LIBS) $(KERNEL_ARCH_LIBS)
 
-C_SRCS:=$(shell find -path "./kernel/*.c" | sed "s/\.\///g")
+C_SRCS:=$(shell find -not -path "./arch/*" -name "*.c" | sed "s/\.\///g")
 OBJS:=\
 $(KERNEL_ARCH_OBJS) \
 $(C_SRCS:.c=.o)\
