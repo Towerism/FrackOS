@@ -8,8 +8,11 @@ run: iso
 iso: build
 	./iso.sh
 
-build:
+build: config
 	./build.sh
+
+config:
+	./config.sh
 
 clean:
 	./clean.sh
