@@ -1,8 +1,8 @@
 * FrackOS
 ** Requirements
-- Linux
-- An i686-elf cross compiler
-- Grub
+- Linux (The build system only supports Linux, maybe also OSX)
+- An i686-elf cross compiler (Currently the default compiler)
+- Grub (For making an os image)
 - Qemu (Only for testing)
 ** Instructions
 You can configure the operating system with ~make config~,
