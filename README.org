@@ -5,6 +5,7 @@
 - Grub
 - Qemu (Only for testing)
 ** Instructions
-You can build the operating system with ~make build~, 
+You can configure the operating system with ~make config~,
+build the operating system with ~make build~, 
 create a bootable image with ~make iso~, 
 and run inside an emulator using ~make run~.
