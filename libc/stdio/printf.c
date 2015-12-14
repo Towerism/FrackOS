@@ -54,7 +54,10 @@ int printf(const char *restrict format, ...) {
   }
 
   va_end(parameters);
+
+#if defined(__is_frackos_kernel)
   terminal_update_cursor();
+#endif
 
   return written;
 }
