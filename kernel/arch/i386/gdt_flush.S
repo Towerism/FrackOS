@@ -9,7 +9,7 @@ gdt_flush:
   mov %ax, %fs
   mov %ax, %gs
   mov %ax, %ss
-  # long jump to 0x08:.flush, 0x08 is the address of the code segment
+  # long jump to 0x08:.gdt_flush_done, 0x08 is the address of the code segment
   mov gdt_flush_done, %ebx
   movw $0x08, (code_address_offset)
   movw %ebx, (code_address_segment)
