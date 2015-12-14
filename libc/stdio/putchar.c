@@ -5,7 +5,7 @@
 #endif
 
 int putchar(int ic) {
-#if defined(__is_frackos_kernel)
+#ifdef __is_frackos_kernel
   char c = (char)ic;
   terminal_write(&c, sizeof(c));
 #else

@@ -54,21 +54,19 @@ void terminal_linefeed() {
 
 int terminal_scan_to_end_of_row(size_t row) {
   size_t column = VGA_WIDTH - 1;
-  while (char_from_vgaentry(column, row) == ' ' && column >= 0) {
+  while (char_from_vgaentry(column, row) == ' ') {
     column--;
   }
   column++;
-  if (column == VGA_WIDTH)
+  if (column >= VGA_WIDTH)
     column--;
   return column;
 }
 
 void terminal_backspace() {
-  bool moved_up = false;
   if (terminal_column != 0)
     terminal_column--;
   else if (terminal_row != 0) {
-    moved_up = true;
     terminal_row--;
     terminal_column = terminal_scan_to_end_of_row(terminal_row);
     if (terminal_column != VGA_WIDTH - 1) {
