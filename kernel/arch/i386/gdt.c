@@ -31,11 +31,12 @@ void init_gdt() {
   gdt_ptr.limit = sizeof(uint64_t)*GDT_SIZE - 1;
   gdt_ptr.base = (uint32_t)&gdt_entries;
 
-  gdt_entries[0] = create_descriptor(0, 0, 0);
-  gdt_entries[1] = create_descriptor(0, 0x000FFFFF, (GDT_CODE_PL0));
-  gdt_entries[2] = create_descriptor(0, 0x000FFFFF, (GDT_DATA_PL0));
-  gdt_entries[3] = create_descriptor(0, 0x000FFFFF, (GDT_CODE_PL3));
-  gdt_entries[4] = create_descriptor(0, 0x000FFFFF, (GDT_DATA_PL3));
+  gdt_entries[0] = create_descriptor(0, 0, 0);                                // selector
+  gdt_entries[1] = create_descriptor(0, 0x000FFFFF, (GDT_CODE_PL0));          // 0x08 kernel code segment
+  gdt_entries[2] = create_descriptor(0, 0x000FFFFF, (GDT_DATA_PL0));          // 0x10 kernel data segment
+  gdt_entries[3] = create_descriptor(0, 0x000FFFFF, (GDT_CODE_PL3));          // 0x18 user code segment
+  gdt_entries[4] = create_descriptor(0, 0x000FFFFF, (GDT_DATA_PL3));          // 0x20 user data segment
+  gdt_entries[5] = create_descriptor((uint32_t)&tss, sizeof(tss), (GDT_TSS)); // 0x28 task state segment
 
   gdt_flush((uint32_t)&gdt_ptr);
 }

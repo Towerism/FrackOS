@@ -57,7 +57,7 @@
   SEG_DESCTYPE(0) | SEG_PRES(1) | SEG_SAVL(0) | SEG_LONG(0) | SEG_SIZE(0) |    \
       SEG_GRAN(1) | SEG_PRIV(0) | SEG_CODE_EXA
 
-#define GDT_SIZE 5
+#define GDT_SIZE 6
 
 struct gdt_ptr {
   uint16_t limit; // upper 16 bits of all selector limits
