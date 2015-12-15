@@ -37,9 +37,7 @@ CRTEND_OBJ:=$(shell $(CC) $(CFLAGS) $(LDFLAGS) -print-file-name=crtend.o)
 CRTN_OBJ:=$(ARCHDIR)/crtn.o
 
 ALL_OUR_OBJS:=\
-$(CRTI_OBJ) \
 $(OBJS) \
-$(CRTN_OBJ) \
 
 OBJ_LINK_LIST:=\
 $(CRTI_OBJ) \

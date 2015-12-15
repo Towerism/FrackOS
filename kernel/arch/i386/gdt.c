@@ -25,6 +25,8 @@ uint64_t create_descriptor(uint32_t base, uint32_t limit, uint16_t flag) {
   return descriptor;
 }
 
+void gdt_flush(uint32_t);
+
 void init_gdt() {
   gdt_ptr.limit = sizeof(uint64_t)*GDT_SIZE - 1;
   gdt_ptr.base = (uint32_t)&gdt_entries;
@@ -34,11 +36,6 @@ void init_gdt() {
   gdt_entries[2] = create_descriptor(0, 0x000FFFFF, (GDT_DATA_PL0));
   gdt_entries[3] = create_descriptor(0, 0x000FFFFF, (GDT_CODE_PL3));
   gdt_entries[4] = create_descriptor(0, 0x000FFFFF, (GDT_DATA_PL3));
-  gdt_entries[5] = create_descriptor((uint32_t)&tss, sizeof(tss), (GDT_TSS));
 
   gdt_flush((uint32_t)&gdt_ptr);
-
-  // load the task state segment
-  __asm__("mov 0x28, %ax"); // 0x28 is the selector for the task state segment
-  __asm__("ltr %ax"); // actuall load the tss
 }

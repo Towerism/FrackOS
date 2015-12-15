@@ -7,7 +7,7 @@
 #include <kernel/gdt.h>
 
 void kernel_early(void) {
-  // init_gdt();
+  init_gdt();
   terminal_initialize();
 }
 

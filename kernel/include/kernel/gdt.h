@@ -5,12 +5,19 @@
 
 // Each define here is for a specific flag in the descriptor.
 // Refer to the intel documentation for a description of what each one does.
+// S
 #define SEG_DESCTYPE(x) ((x) << 0x04) // Descriptor type (0 for system, 1 for code/data)
+// P
 #define SEG_PRES(x) ((x) << 0x07) // Present
+// AVL
 #define SEG_SAVL(x) ((x) << 0x0C) // Available for system use
+// L
 #define SEG_LONG(x) ((x) << 0x0D) // Long mode
+// D / B
 #define SEG_SIZE(x) ((x) << 0x0E) // Size (0 for 16-bit, 1 for 32)
+// G
 #define SEG_GRAN(x) ((x) << 0x0F) // Granularity (0 for 1B - 1MB, 1 for 4KB - 4GB)
+// DPL
 #define SEG_PRIV(x) (((x)&0x03) << 0x05) // Set privilege level (0 - 3)
 
 #define SEG_DATA_RD 0x00        // Read-Only
@@ -47,10 +54,10 @@
       SEG_GRAN(1) | SEG_PRIV(3) | SEG_DATA_RDWR
 
 #define GDT_TSS                                                                \
-  SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | SEG_LONG(0) | SEG_SIZE(1) |    \
+  SEG_DESCTYPE(0) | SEG_PRES(1) | SEG_SAVL(0) | SEG_LONG(0) | SEG_SIZE(0) |    \
       SEG_GRAN(1) | SEG_PRIV(0) | SEG_CODE_EXA
 
-#define GDT_SIZE 6
+#define GDT_SIZE 5
 
 struct gdt_ptr {
   uint16_t limit; // upper 16 bits of all selector limits
